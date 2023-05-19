@@ -756,7 +756,7 @@ Checkers checked, in order: `flycheck', `flymake'."
   (when mood-line-show-major-mode
     (concat (propertize (substring-no-properties (format-mode-line mode-name))
                         'face 'mood-line-major-mode)
-            "  ")))
+            " ")))
 
 ;; ---------------------------------- ;;
 ;; Misc. info segment
@@ -861,7 +861,7 @@ Checkers checked, in order: `flycheck', `flymake'."
                        (:eval (mood-line-segment-misc-info))
                        (:eval (mood-line-segment-checker))
                        (:eval (mood-line-segment-process))
-                       " ")))))))
+                       "")))))))
 
 ;; ---------------------------------- ;;
 ;; Deactivation function
