@@ -1,7 +1,8 @@
 # mood-line
-
 [![MELPA](https://melpa.org/packages/mood-line-badge.svg)](https://melpa.org/#/mood-line)
 [![MELPA Stable](https://stable.melpa.org/packages/mood-line-badge.svg)](https://stable.melpa.org/#/mood-line)
+
+### Fork of https://gitlab.com/jessieh/mood-line
 
 ## About
 
