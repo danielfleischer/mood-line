@@ -826,6 +826,16 @@ Checkers checked, in order: `flycheck', `flymake'."
   ;; Save previous value of `mode-line-format' to be restored later
   (setq mood-line--default-mode-line mode-line-format)
 
+  (defun df/mule ()
+    "Indicate whether thin input is hebrew."
+    (propertize
+     (concat
+      (pcase current-input-method
+        ('nil "  ")
+        (_ "ע "))
+      "‪")
+     'face 'org-tag-group))
+
   ;; Set new value of `mode-line-format'
   (setq-default mode-line-format
                 '((:eval
@@ -847,6 +857,7 @@ Checkers checked, in order: `flycheck', `flymake'."
                        (:eval (mood-line-segment-encoding))
                        (:eval (mood-line-segment-vc))
                        (:eval (mood-line-segment-major-mode))
+                       (:eval (df/mule))
                        (:eval (mood-line-segment-misc-info))
                        (:eval (mood-line-segment-checker))
                        (:eval (mood-line-segment-process))
