@@ -56,7 +56,7 @@
 
 (eval-when-compile
   (require 'cl-lib))
-
+(require 'erc-track)
 ;; ---------------------------------- ;;
 ;; External variable defs
 ;; ---------------------------------- ;;
@@ -206,7 +206,9 @@ An optional key :padding may be provided, the value of which will be used as
     ((mood-line-segment-cursor-position)        . " ")
     (mood-line-segment-scroll))
    :right
-   (((mood-line-segment-vc)         . "  ")
+   (((mood-line-erc-status) . "  ")
+    ((mood-line-segment-vc)         . "  ")
+    ((df/mule)                      . " ")
     ((mood-line-segment-major-mode) . "  ")
     ((mood-line-segment-misc-info)  . "  ")
     ((mood-line-segment-checker)    . "  ")
@@ -233,7 +235,9 @@ An optional key :padding may be provided, the value of which will be used as
    (((mood-line-segment-indentation) . "  ")
     ((mood-line-segment-eol)         . "  ")
     ((mood-line-segment-encoding)    . "  ")
+    ((mood-line-erc-status) . "  ")
     ((mood-line-segment-vc)          . "  ")
+    ((df/mule)                       . " ")
     ((mood-line-segment-major-mode)  . "  ")
     ((mood-line-segment-misc-info)   . "  ")
     ((mood-line-segment-checker)     . "  ")
@@ -454,6 +458,52 @@ described in the documentation for `mood-line-format', which see."
 ;; Optional/lazy-loaded segments
 ;;
 ;; -------------------------------------------------------------------------- ;;
+
+(defun mood-line-erc-status ()
+  (cond ((or (eq 'mostactive erc-track-switch-direction)
+	     (eq 'leastactive erc-track-switch-direction))
+	     (erc-track-sort-by-activest))
+	    ((eq 'importance erc-track-switch-direction)
+	     (erc-track-sort-by-importance)))
+  (run-hooks 'erc-track-list-changed-hook)
+  (when erc-track-position-in-mode-line
+    (let* ((oldobject erc-modified-channels-object)
+	       (strings
+	        (when erc-modified-channels-alist
+	          ;; erc-modified-channels-alist contains all the data we need.  To
+	          ;; better understand what is going on, we split things up into
+	          ;; four lists: BUFFERS, COUNTS, SHORT-NAMES, and FACES.  These
+	          ;; four lists we use to create a new
+	          ;; `erc-modified-channels-object' using
+	          ;; `erc-make-mode-line-buffer-name'.
+	          (let* ((buffers (mapcar #'car erc-modified-channels-alist))
+		             (counts (mapcar #'cadr erc-modified-channels-alist))
+		             (faces (mapcar #'cddr erc-modified-channels-alist))
+                     (long-names (mapcar (lambda (buf)
+                                           (or (buffer-name buf)
+                                               ""))
+					                     buffers))
+		             (short-names (if (functionp erc-track-shorten-function)
+				                      (funcall erc-track-shorten-function
+					                           long-names)
+				                    long-names))
+		             strings)
+		        (while buffers
+		          (when (car short-names)
+		            (setq strings (cons (erc-make-mode-line-buffer-name
+					                     (car short-names)
+					                     (car buffers)
+					                     (car faces)
+					                     (car counts))
+					                    strings)))
+		          (setq short-names (cdr short-names)
+			            buffers (cdr buffers)
+			            counts (cdr counts)
+			            faces (cdr faces)))
+		        strings)))
+	   (newobject (erc-modified-channels-object strings)))
+      newobject)))
+
 
 ;; ---------------------------------- ;;
 ;; Modal editing
