@@ -1,16 +1,3 @@
-<<<<<<< HEAD
-# mood-line
-[![MELPA](https://melpa.org/packages/mood-line-badge.svg)](https://melpa.org/#/mood-line)
-[![MELPA Stable](https://stable.melpa.org/packages/mood-line-badge.svg)](https://stable.melpa.org/#/mood-line)
-
-### Fork of https://gitlab.com/jessieh/mood-line
-
-## About
-
-mood-line is a minimal mode line configuration that aims to replicate some of the features of the
-more advanced [doom-modeline](https://github.com/seagle0128/doom-modeline) package.
-
-=======
 # <img src=".repo-assets/icon.png" width=50> mood-line
 
 A lightweight, drop-in replacement for the default Emacs mode line configuration.
@@ -18,7 +5,6 @@ A lightweight, drop-in replacement for the default Emacs mode line configuration
 [![MELPA](https://melpa.org/packages/mood-line-badge.svg)](https://melpa.org/#/mood-line)
 [![MELPA Stable](https://stable.melpa.org/packages/mood-line-badge.svg)](https://stable.melpa.org/#/mood-line)
 
->>>>>>> upstream/main
 ## Features
 
 * Clean, informative design
